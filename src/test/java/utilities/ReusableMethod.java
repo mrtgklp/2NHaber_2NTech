@@ -191,7 +191,7 @@ public class ReusableMethod {
     // Burada Hata var
     public static void tumSayfaResmi() {
         String tarih = new SimpleDateFormat("_hh_mm_ss_ddMMyyyy").format(new Date());
-        String dosyaYolu = "src/test/TestOutput" + tarih + ".png";
+        String dosyaYolu = "src/test/testOutput" + tarih + ".png";
         TakesScreenshot ts = (TakesScreenshot) Driver.getDriver();
         try {
             FileUtils.copyFile(ts.getScreenshotAs(OutputType.FILE), new File(dosyaYolu));

@@ -1,11 +1,11 @@
 package stepDefitions;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import pages.Locates;
 import utilities.ConfigReader;
@@ -37,7 +37,7 @@ public class Steps {
                 System.out.println(itemName+ "Tıklanmadı");
             }
 
-            //Assert.assertTrue("Sayfa başlığı doğruladı", Driver.getDriver().getTitle().contains(itemName)); // Başlık doğrulaması
+            Assert.assertTrue("Sayfa başlığı doğruladı", Driver.getDriver().getTitle().contains(itemName)); // Başlık doğrulaması
             Driver.getDriver().navigate().back(); // Sayfada geri git
             ReusableMethod.tumSayfaResmi();
             ReusableMethod.bekle(3);
@@ -52,86 +52,7 @@ public class Steps {
 
     @When("Navbar'daki tüm alt menülere tıklar")
     public void navbar_daki_tüm_alt_menülere_tıklar() {
-        // Üst menüleri döngüyle gez
-                /*for (WebElement mainMenuItem : locates.navbarItems) {
-                        String mainMenuName = mainMenuItem.getText();
 
-                        // Mouse hareketi ve bekleme işlemi
-                        actions.moveToElement(mainMenuItem).perform(); // Mouse hareketi
-
-                        // Bekleme süresi ekle (opsiyonel, UI yavaş yükleniyorsa)
-                        ReusableMethod.bekle(3);
-
-                        //mainMenuItem.click(); // Üst menüye tıkla
-                        System.out.println(mainMenuName + " ana menüsü açıldı.");
-
-                        // Alt menüleri kontrol et
-                        for (int i=0;i<locates.navbarItems.size();i++){
-                                for (WebElement submenu : locates.submenuItems) {
-                                        String submenuName = submenu.getText(); // Alt menü adını al
-
-                                        // Alt menüye mouse ile git
-                                        actions.moveToElement(submenu).perform(); // Mouse hareketi
-                                        ReusableMethod.bekle(2);
-                                        if (submenu.isDisplayed() && submenu.isEnabled()) {
-                                                submenu.click();
-                                        } else {
-                                                System.out.println(submenuName + " alt menüsü tıklanabilir değil!");
-                                        }
-                                        System.out.println(submenuName + " alt menüsü tıklandı.");
-
-                                        Driver.getDriver().navigate().back(); // Sayfada geri git
-                                        // Üst menüyü tekrar aç
-                                        ReusableMethod.bekle(3);
-
-                                        actions.moveToElement(mainMenuItem).perform();
-                                        //mainMenuItem.sendKeys();
-                                        ReusableMethod.bekle(2);
-                                }
-                        }
-
-
-
-                }*/
-        /*for (int i = 0; i < locates.navbarItems.size();i++) {
-            // Re-fetch navbar items dynamically
-            List<WebElement> navbarItems = locates.navbarItems;
-            WebElement mainMenuItem = navbarItems.get(i);
-            String mainMenuName = mainMenuItem.getText();
-
-            // Hover over the main menu item
-            actions.moveToElement(mainMenuItem).perform();
-            ReusableMethod.bekle(2);
-            System.out.println(mainMenuName + " ana menüsü açıldı.");
-
-            // Re-fetch submenu items dynamically after hovering over the main menu
-            List<WebElement> submenuItems = locates.submenuItems;
-
-            for (int j = 0; j < submenuItems.size(); j++) {
-                // Refresh submenu items dynamically
-                submenuItems = locates.submenuItems;
-                WebElement submenu = submenuItems.get(j);
-                String submenuName = submenu.getText();
-
-                // Hover over and interact with the submenu
-                actions.moveToElement(submenu).perform();
-                ReusableMethod.bekle(1);
-
-                submenu.click();
-                System.out.println(submenuName + " alt menüsü tıklandı.");
-                // Navigate back and refresh main menu
-                Driver.getDriver().navigate().back();
-                ReusableMethod.bekle(2);
-                actions.moveToElement(mainMenuItem).perform();
-
-            }
-            navbarItems = locates.navbarItems; // Refresh navbar items
-            mainMenuItem = navbarItems.get(i); // Re-fetch the current main menu item
-            actions.moveToElement(mainMenuItem).perform();
-            Driver.getDriver().navigate().back();
-        }*/
-
-        // Loop through all main menu items
         for (int i = 0; i < locates.navbarItems.size(); i++) {
             // Refresh the list of navbar items dynamically
             List<WebElement> navbarItems = locates.navbarItems;
@@ -206,20 +127,6 @@ public class Steps {
     }
     @When("{string} numaralı habere tıklarsam")
     public void numaralı_habere_tıklarsam(String  sonucSırası) {
-       /* int index = Integer.parseInt(sonucSırası); // 0 tabanlı index
-        List<WebElement> searchResults = locates.newsEightAndThreeGoing; // Arama sonuçlarını al
-
-        if (index >= 0 && index < searchResults.size()) {
-            WebElement selectedNews = searchResults.get(index);
-            String expectedTitle = selectedNews.getText(); // Haber başlığını al
-            selectedNews.sendKeys(Keys.DOWN,Keys.ENTER); // Habere tıkla
-
-            ReusableMethod.bekle(2); // Sayfanın yüklenmesini bekle
-            String actualTitle = locates.newsTitle.getText(); // Haber detay sayfasındaki başlığı al
-            Assert.assertTrue(actualTitle.contains(expectedTitle)); // Başlığı doğrula
-        } else {
-            Assert.fail("Belirtilen sıradaki haber bulunamadı!");
-        }*/
         // Gelen sıra numaralarını integer'a çeviriyoruz
         int eighthIndex = Integer.parseInt(sonucSırası) - 1; // 0 tabanlı index
         int thirdIndex = Integer.parseInt(sonucSırası) - 1;   // 0 tabanlı index
@@ -238,6 +145,7 @@ public class Steps {
             // Haber başlığını doğrulamak için alıyoruz
             String actualTitle8= eighthNews.getText();
             eighthNews.click(); // Habere tıklıyoruz
+            ReusableMethod.tumSayfaResmi();
 
             // Sayfanın yüklenmesini bekliyoruz ve başlığı doğruluyoruz
             ReusableMethod.bekle(2);
@@ -258,6 +166,7 @@ public class Steps {
             // 3. haber görünür değilse scroll işlemi
             ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", thirdNews);
             ReusableMethod.bekle(2);
+            ReusableMethod.tumSayfaResmi();
 
             // Haber başlığını doğrulamak için alıyoruz
          
@@ -271,7 +180,10 @@ public class Steps {
             System.out.println("3.haber Bulunamadı");
         }
     }
-
+    @And("Kullanıcı Sayfayı Kapatır")
+    public void kullanıcıSayfayıKapatır() {
+        Driver.closeDriver();
+    }
 
 
 }

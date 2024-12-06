@@ -6,20 +6,14 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import pages.Locates;
 import utilities.Driver;
 import utilities.ReusableMethod;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 
 public class Steps2NTech {
@@ -35,6 +29,7 @@ public class Steps2NTech {
     @When("Kullanıcı Ad Soyadı alanına  yazar")
     public void kullanıcı_ad_soyadı_alanına_yazar() {
         locates.name.sendKeys(faker.name().fullName(), Keys.ENTER);
+        ReusableMethod.tumSayfaResmi();
     }
 
     @When("Kullanıcı Doğum Tarihini  olarak girer")
@@ -47,6 +42,7 @@ public class Steps2NTech {
         String formattedBirthday = dateFormat.format(birthday);
 
         locates.dateBirth.sendKeys(formattedBirthday);
+        ReusableMethod.tumSayfaResmi();
     }
 
     @When("Kullanıcı T.C Kimlik Numarası alanına  yazar")
@@ -75,6 +71,7 @@ public class Steps2NTech {
     @When("Kullanıcı Mail Adresi alanına  yazar")
     public void kullanıcı_mail_adresi_alanına_yazar() {
             locates.email.sendKeys(faker.internet().emailAddress(),Keys.ENTER,Keys.PAGE_DOWN);
+
     }
 
     @And("Kullanıcı CV dosyasını {string} olarak yükler")
@@ -86,49 +83,44 @@ public class Steps2NTech {
         robot.keyPress(KeyEvent.VK_ESCAPE);
         robot.keyRelease(KeyEvent.VK_ESCAPE);
 
-
-
-
-
-
     }
 
     @When("Kullanıcı Eğitim Durumu olarak {string} seçeneğini seçer")
     public void kullanıcı_eğitim_durumu_olarak_seçeneğini_seçer(String lisans) {
             ReusableMethod.selectEgitimBilgisi(lisans);
 
-
     }
-
 
     @When("Kullanıcı KVKK Metni'ni onaylar")
     public void kullanıcı_kvkk_metni_ni_onaylar() {
         locates.kvkkBox.isDisplayed();
         System.out.println("Kvkk Metni butonu basılı geliyor");
 
+
     }
 
     @When("Kullanıcı İleri ok tuşuna tıklar")
     public void kullanıcı_ileri_ok_tuşuna_tıklar() {
-            locates.ileriButton.click();
+        locates.ileriButton.click();
     }
 
     @When("Kullanıcı İkinci Adım ekranını görüntüler")
     public void kullanıcı_ikinci_adım_ekranını_görüntüler() {
         locates.adım2.isDisplayed();
+        ReusableMethod.tumSayfaResmi();
     }
 
     @When("Kullanıcı Test Engineer pozisyonunu seçer")
     public void kullanıcı_pozisyonunu_seçer() {
         locates.testEngineer.click();
-
+        ReusableMethod.tumSayfaResmi();
     }
 
     @When("Kullanıcı Formu Gönder butonuna tıklar")
     public void kullanıcı_formu_gönder_butonuna_tıklar() {
         locates.gonder.click();
         ReusableMethod.bekle(4);
-
+        ReusableMethod.tumSayfaResmi();
     }
 
 
@@ -136,7 +128,7 @@ public class Steps2NTech {
     @Then("Formun başarılı bir şekilde gönderildiği mesajını görmelidir--")
     public void formunBasarılıBirSekildeGonderildigiMesajınıGormelidir() {
         Assert.assertTrue(locates.başarılıGonderıldı.isDisplayed());
-
+        ReusableMethod.tumSayfaResmi();
     }
 
     @And("Kullanıcı Sayfayı Kapatır")

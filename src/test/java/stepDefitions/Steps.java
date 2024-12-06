@@ -180,10 +180,7 @@ public class Steps {
             System.out.println("3.haber Bulunamadı");
         }
     }
-    @And("Kullanıcı Sayfayı Kapatır")
-    public void kullanıcıSayfayıKapatır() {
-        Driver.closeDriver();
-    }
+
 
 
 }

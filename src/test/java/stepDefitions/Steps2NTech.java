@@ -20,6 +20,7 @@ public class Steps2NTech {
     Locates locates = new Locates();
     Faker faker = new Faker();
 
+
     @Given("Kullanıcı {string} sayfasını açar")
     public void kullanıcı_sayfasını_açar(String url) {
         Driver.getDriver().get(url);
@@ -129,6 +130,7 @@ public class Steps2NTech {
     public void formunBasarılıBirSekildeGonderildigiMesajınıGormelidir() {
         Assert.assertTrue(locates.başarılıGonderıldı.isDisplayed());
         ReusableMethod.tumSayfaResmi();
+        ReusableMethod.extentReport();
     }
 
     @And("Kullanıcı Sayfayı Kapatır")

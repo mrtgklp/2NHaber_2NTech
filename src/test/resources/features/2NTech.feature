@@ -1,4 +1,4 @@
-@2nTech
+@2NTech
   Feature: 2NTECH İş Başvuru Formu Testi
 
     Scenario: Kullanıcı formun ilk adımını eksiksiz doldurur ve ikinci adımda pozisyon seçimi yapar

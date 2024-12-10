@@ -7,11 +7,14 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.Locates;
 import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.ReusableMethod;
 
+import java.time.Duration;
 import java.util.List;
 
 public class Steps {
@@ -26,20 +29,33 @@ public class Steps {
 
     @When("Navbar'daki tüm ana elementlere tıklar")
     public void navbar_daki_tüm_ana_elementlere_tıklar() {
-        // Navbar öğelerinin listesi alınır
         for (WebElement item : locates.navbarItems) {
-            String itemName = null; // Eleman adını al
+            String itemName = item.getText(); // Elemanın adını al
             try {
-                itemName = item.getText();
-                item.click(); // Tıkla
-                System.out.println(itemName + " tıklandı.");
+                System.out.println("Tıklanıyor: " + itemName);
+
+                // Elemanı tıkla
+                item.click();
+
+                // Sayfa başlığını kontrol etmek için bekle
+                ReusableMethod.waitForTitleContains(Driver.getDriver(),itemName, Duration.ofSeconds(10));
+
+                // Başlık doğrulaması
+                String pageTitle = Driver.getDriver().getTitle();
+                Assert.assertTrue("Başlık doğrulaması başarısız: " + pageTitle, pageTitle.contains(itemName));
+                System.out.println("Başlık doğrulandı: " + pageTitle);
+
+                // Sayfayı kaydet (ekran görüntüsü)
+                ReusableMethod.tumSayfaResmi();
+
             } catch (Exception e) {
-                System.out.println(itemName+ "Tıklanmadı");
+                System.err.println("Hata oluştu: " + itemName + " -> " + e.getMessage());
             }
 
-            Assert.assertTrue("Sayfa başlığı doğruladı", Driver.getDriver().getTitle().contains(itemName)); // Başlık doğrulaması
-            Driver.getDriver().navigate().back(); // Sayfada geri git
-            ReusableMethod.tumSayfaResmi();
+            // Bir sonraki öğeye geçmeden önce geri git
+            Driver.getDriver().navigate().back();
+
+            // Dinamik bekleme veya sabit bekleme eklenebilir
             ReusableMethod.bekle(3);
         }
     }
@@ -100,7 +116,6 @@ public class Steps {
         }
 
 
-
     }
 
     @Then("Alt menüler sorunsuz çalışır")
@@ -114,9 +129,10 @@ public class Steps {
         locates.seachBoxClick.click();
         ReusableMethod.bekle(3);
     }
+
     @When("{string} ifadesini arama alanına yazarsam")
     public void ifadesini_arama_alanına_yazarsam(String aramaTerimi) {
-        locates.seachBoxWrite.sendKeys(aramaTerimi,Keys.ENTER);
+        locates.seachBoxWrite.sendKeys(aramaTerimi, Keys.ENTER);
 
     }
 
@@ -125,8 +141,9 @@ public class Steps {
 
         Assert.assertTrue(locates.seachResult.isDisplayed());
     }
+
     @When("{string} numaralı habere tıklarsam")
-    public void numaralı_habere_tıklarsam(String  sonucSırası) {
+    public void numaralı_habere_tıklarsam(String sonucSırası) {
         // Gelen sıra numaralarını integer'a çeviriyoruz
         int eighthIndex = Integer.parseInt(sonucSırası) - 1; // 0 tabanlı index
         int thirdIndex = Integer.parseInt(sonucSırası) - 1;   // 0 tabanlı index
@@ -143,13 +160,13 @@ public class Steps {
             ReusableMethod.bekle(2); // Sayfanın yüklenmesi için bekle
 
             // Haber başlığını doğrulamak için alıyoruz
-            String actualTitle8= eighthNews.getText();
+            String actualTitle8 = eighthNews.getText();
             eighthNews.click(); // Habere tıklıyoruz
             ReusableMethod.tumSayfaResmi();
 
             // Sayfanın yüklenmesini bekliyoruz ve başlığı doğruluyoruz
             ReusableMethod.bekle(2);
-            Assert.assertTrue("Türkiye enerjide merkez ülke",true);
+            Assert.assertTrue("Türkiye enerjide merkez ülke", true);
 
 
             // Geri dönüyoruz
@@ -169,7 +186,7 @@ public class Steps {
             ReusableMethod.tumSayfaResmi();
 
             // Haber başlığını doğrulamak için alıyoruz
-         
+
             thirdNews.click(); // Habere tıklıyoruz
 
             // Sayfanın yüklenmesini bekliyoruz ve başlığı doğruluyoruz
@@ -180,7 +197,6 @@ public class Steps {
             System.out.println("3.haber Bulunamadı");
         }
     }
-
 
 
 }

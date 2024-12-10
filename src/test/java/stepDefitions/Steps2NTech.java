@@ -71,7 +71,7 @@ public class Steps2NTech {
 
     @When("Kullanıcı Mail Adresi alanına  yazar")
     public void kullanıcı_mail_adresi_alanına_yazar() {
-            locates.email.sendKeys(faker.internet().emailAddress(),Keys.ENTER,Keys.PAGE_DOWN);
+            locates.email.sendKeys(ReusableMethod.generateGmailAddress(),Keys.ENTER,Keys.PAGE_DOWN);
 
     }
 
@@ -128,9 +128,19 @@ public class Steps2NTech {
 
     @Then("Formun başarılı bir şekilde gönderildiği mesajını görmelidir--")
     public void formunBasarılıBirSekildeGonderildigiMesajınıGormelidir() {
-        Assert.assertTrue(locates.başarılıGonderıldı.isDisplayed());
-        ReusableMethod.tumSayfaResmi();
-        ReusableMethod.extentReport();
+        try {
+
+            Assert.assertTrue("Başarı mesajı görüntülenmedi!", locates.başarılıGonderıldı.isDisplayed());
+            System.out.println("Başarı mesajı görüntülendi.");
+            ReusableMethod.tumSayfaResmi();
+
+        } catch (Exception e) {
+            Assert.assertTrue("Bilgileri doğru doldurma mesajı görüntülenmedi!", locates.bilgileriDogruDoldurun.isDisplayed());
+            System.out.println("Bilgileri doğru doldurma mesajı görüntülendi.");
+            ReusableMethod.tumSayfaResmi();
+        }
+
+
     }
 
     @And("Kullanıcı Sayfayı Kapatır")

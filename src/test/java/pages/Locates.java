@@ -84,6 +84,9 @@ public class Locates {
     @FindBy(xpath = "//p[text()='Form Başarı ile gönderildi. Katıldığınız için teşekkür ederiz.']")
     public  WebElement başarılıGonderıldı;
 
+    @FindBy(css = "[class='relative group/text']")
+    public WebElement bilgileriDogruDoldurun;
+
 
 
 }
